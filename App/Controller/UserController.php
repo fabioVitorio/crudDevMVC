@@ -22,6 +22,7 @@
                 $user->setSenha($_POST['senha']);
                 $user->setGithub($_POST['github']);
                 $user->setFuncao($_POST['funcao']);
+                $user->setAcesso($_POST['acesso']);
 
                 $user->insert();
 
@@ -35,12 +36,32 @@
         }
 
         public function listar(){
-            $user = new Usuario();
 
+            $user = new Usuario();
             $usuarios = $user->select();
             
-            include './App/View/listar/index.php';
+            $_SESSION['error_del'] = null;
+            
 
+            include './App/View/listar/index.php';
+            
+        }
+
+        public function excluir(){
+            try {
+                $user = new Usuario();
+                $user->setId($_POST['user_id']);
+                $user->getId();
+                $user->delete();
+
+                $_SESSION['error_del'] = 'success_delete';
+                header('Location: http://localhost/crudDev/User/listar');
+
+            } catch (\Exception $e) {
+                $_SESSION['error_del'] = 'error_delete';
+                header('Location: http://localhost/crudDev/User/listar');
+            }
+            
         }
 
         public function logout(){

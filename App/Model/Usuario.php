@@ -9,6 +9,7 @@
         private $senha;
         private $github;
         private $funcao;
+        private $acesso;
 
         public function insert(){
             $conn = Connection::getConnection();
@@ -23,14 +24,17 @@
                 throw new \Exception('Email já cadastrado');
             }
 
+            $senhaCrip = password_hash($this->senha, PASSWORD_DEFAULT);
+
             //insere novo usuário no banco
-            $sql = 'INSERT INTO usuario (nome, email, senha, github, funcao) VALUES (:nome, :email, :senha, :github, :funcao)';
+            $sql = 'INSERT INTO usuario (nome, email, senha, github, funcao, acesso) VALUES (:nome, :email, :senha, :github, :funcao, :acesso)';
             $stmt = $conn->prepare($sql);
             $stmt->bindValue(':nome', $this->nome);
             $stmt->bindValue(':email', $this->email);
-            $stmt->bindValue(':senha', $this->senha);
+            $stmt->bindValue(':senha', $senhaCrip);
             $stmt->bindValue(':github', $this->github);
             $stmt->bindValue(':funcao', $this->funcao);
+            $stmt->bindValue(':acesso', $this->acesso);
 
             
             if ($stmt->execute()) {
@@ -47,10 +51,25 @@
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
-            // Obtendo todos os usuários como um array associativo
             $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             return $usuarios;
+        }
+
+        public function delete(){
+            $conn = Connection::getConnection();
+
+            if($this->id != $_SESSION['usr']){
+                $sql = 'DELETE from usuario WHERE id_usuario = :id';
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':id', $this->id);
+                $stmt->execute();
+
+                return true;
+            }
+
+            throw new \Exception('Error ao excluir');
+            
         }
         
         public function validaLogin(){
@@ -66,9 +85,8 @@
                 $result = $stmt->fetch();
 
                 //verifica se a senha está correta
-                if($result['senha'] === $this->senha){
+                if(password_verify($this->senha, $result['senha'])){
                     $_SESSION['usr'] = $result['id_usuario'];
-
                     return true;
                 }
             }
@@ -125,6 +143,14 @@
     
         public function setFuncao($funcao) {
             $this->funcao = $funcao;
+        }
+
+        public function getAcessp() {
+            return $this->acesso;
+        }
+    
+        public function setAcesso($acesso) {
+            $this->acesso = $acesso;
         }
 
     }
