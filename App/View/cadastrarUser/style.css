@@ -20,20 +20,6 @@ body{
     color: #fff;
 }
 
-#success{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    background-color: #198754;
-    border-radius: 2px;
-}
-
-#success > p{
-    margin: 0;
-    color: #fff;
-}
-
 .divider:after,
 .divider:before {
 content: "";
@@ -61,6 +47,10 @@ height: 100%;
 }
 
 .test{
+    z-index: 98 !important;
+}
+
+.test2{
     z-index: 99 !important;
 }
 

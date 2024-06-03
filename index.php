@@ -5,6 +5,7 @@
     require_once './App/Controller/LoginController.php';
     require_once './App/Controller/UserController.php';
     require_once './App/Model/Usuario.php';
+    require_once './App/Model/Aluno.php';
     require_once './App/Config/Connection.php';
 
     session_start();

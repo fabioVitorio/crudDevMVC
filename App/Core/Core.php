@@ -5,6 +5,7 @@
     class Core{
 
         private $url;
+        private $url_full;
         private $controller;
         private $method = 'index';
         private $params;
@@ -16,6 +17,8 @@
 
         public function start($request){
             
+            $url_full = $request['url'];
+
             if($request['url']){
                 //separa url por / e armazena na variavel url - .htaccess
                 $this->url = explode('/', $request['url']);
@@ -44,6 +47,7 @@
 
 
             } else{ //se o user não estiver logado no sistema
+
                 $pg_permitida = ['LoginController'];
 
                 if(!isset($this->controller) || !in_array($this->controller, $pg_permitida)){
@@ -51,6 +55,17 @@
                     $this->method = 'index';
                     $this->params = array();
                 }
+
+                if($this->method == "userCad"){
+                    $this->method = 'userCad';
+                }else if($this->method == "cadastrarUser"){
+                    $this->method = 'cadastrarUser';
+                }else if ($this->method != "check"){ 
+                    $this->method = 'index';
+                }
+                
+                
+
             }
             
             

@@ -8,7 +8,7 @@
 
     private function __construct() {
         $db_host = "localhost";
-        $db_nome = "db_dev"; 
+        $db_nome = "db_crud"; 
         $db_usuario = "root";
         $db_senha = "";
         $db_driver = "mysql";
