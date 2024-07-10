@@ -26,6 +26,8 @@ CREATE TABLE `usuario` (
   `senha` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+
+# SENHA 12345678
 INSERT INTO `usuario` (`nome`, `email`, `cpf`, `senha`) VALUES
 ('Usuario', 'usuario@gmail.com.br', '000.000.000-01', '$2y$10$6T2UzEMcTjyP8jeGNs7m1.GUZ6Je8XJOt3dPAa0OqS/GUR43dyLrG');
 
